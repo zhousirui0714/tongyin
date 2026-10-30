@@ -60,12 +60,15 @@
 
 ### 第 5 步：下载 APK
 
-1. 点进那条绿色的构建记录
-2. 页面**拉到最下面**，找到 **Artifacts**
-3. 点 **tongyin-apk** 下载，会得到一个 zip
-4. 解压，里面就是 `tongyin-v0.1-b1.apk`
+构建成功后，APK 会被自动发布到 Releases 页面，这是最省事的下载方式：
 
-> 手机/平板浏览器可能不方便下载和上传，建议第 1–5 步都在电脑上做。
+1. 打开 <https://github.com/zhousirui0714/tongyin/releases>
+2. 点最新的 **同音 · 最新构建**
+3. 页面下方 **Assets** 里点 `tongyin.apk` 直接下载，不用解压
+
+如果 Releases 页面暂时是空的，说明发布那一步还没跑完或者失败了，这时可以走备用路线：Actions → Build APK → 点进绿色的运行记录 → 拉到最底部 → **Artifacts** → `tongyin-apk`（这个下载下来是 zip，需要解压）。
+
+> 平板浏览器下载和解压都不太顺手，建议在电脑上把 APK 下好再传到平板。
 
 ---
 

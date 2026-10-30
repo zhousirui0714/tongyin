@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: 构建 APK
@@ -32,11 +35,24 @@ jobs:
         run: |
           mkdir -p out
           cp app/build/outputs/apk/debug/app-debug.apk "out/tongyin-v0.1-b${{ github.run_number }}.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "out/tongyin.apk"
           ls -lh out
 
-      - name: 上传 APK
+      - name: 上传 APK（临时产物，90 天过期）
         uses: actions/upload-artifact@v4
         with:
           name: tongyin-apk
-          path: out/*.apk
+          path: out/tongyin-v0.1-b${{ github.run_number }}.apk
           if-no-files-found: error
+
+      # 发布到 Releases：给一个固定页面，直接点就能下载，不用登录也不用翻 Actions
+      - name: 发布到 Releases
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view latest >/dev/null 2>&1 || \
+            gh release create latest \
+              --title "同音 · 最新构建" \
+              --notes "每次推送代码会自动更新这里。下载页面下方的 tongyin.apk 即可。"
+          gh release upload latest out/tongyin.apk --clobber
